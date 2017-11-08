@@ -157,6 +157,22 @@ namespace MIE444Robot
             if (serialPort.IsOpen)
             {
                 Localize();
+                WriteOutput("Proceeding to loading zone...");
+                // Once we're localized, we just want to visualize what is going on.
+                while (true)
+                {
+                    string readString = serialPort.ReadLine();
+                    if(readString[0] == 'D')
+                    {
+                        WriteOutput("Reached the loading zone.");
+                        break;
+                    }
+                    else
+                    {
+                        CheckAndSetReadLocation(readString);
+                        // Draw()
+                    }
+                }
             }
             else
             {
@@ -173,53 +189,181 @@ namespace MIE444Robot
             WriteOutput(readString);
             CheckAndSetReadLocation(readString);
 
-            if ( northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
+            if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
             {
                 // No walls
                 serialPort.WriteLine(zone11);
-            }else if (northUltrasonic <= thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
+                WriteOutput("Localized to zone 11.");
+            } else if (northUltrasonic <= thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
             {
                 // North wall
                 serialPort.WriteLine(zone2);
-            }else if (northUltrasonic > thresholdNorth && eastUltrasonic <= thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
+                WriteOutput("Localized to zone 2.");
+            } else if (northUltrasonic > thresholdNorth && eastUltrasonic <= thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
             {
                 // East wall
                 serialPort.WriteLine(zone13);
-            }else if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic <= thresholdSouth && westUltrasonic > thresholdWest)
+                WriteOutput("Localized to zone 13.");
+            } else if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic <= thresholdSouth && westUltrasonic > thresholdWest)
             {
                 // South wall
                 serialPort.WriteLine(zone20);
-            }else if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic <= thresholdWest)
+                WriteOutput("Localized to zone 20.");
+            } else if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic <= thresholdWest)
             {
                 // West wall
                 serialPort.WriteLine(zone7);
-            }else if (northUltrasonic <= thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic <= thresholdSouth && westUltrasonic > thresholdWest)
+                WriteOutput("Localized to zone7");
+            } else if (northUltrasonic <= thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic <= thresholdSouth && westUltrasonic > thresholdWest)
             {
                 // North and South wall
                 serialPort.WriteLine(zoneCircle);
-                // MORE
-            }else if (northUltrasonic <= thresholdNorth && eastUltrasonic <= thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
+                WriteOutput("Further localization needed. Sending further instructions to robot...");
+                // MORE - 3, 10, 12, 19, 21, 22
+                readString = serialPort.ReadLine();
+                CheckAndSetReadLocation(readString);
+                if (northUltrasonic <= thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
+                {
+                    // North wall
+                    serialPort.WriteLine(zone3);
+                    WriteOutput("Localized to zone 3.");
+                }
+                else if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic <= thresholdSouth && westUltrasonic <= thresholdWest)
+                {
+                    // South and West wall
+                    // Could be zone 10 or 19
+                    if (northUltrasonic <= 45)
+                    {
+                        serialPort.WriteLine(zone10);
+                        WriteOutput("Localized to zone 10.");
+                    }
+                    else
+                    {
+                        serialPort.WriteLine(zone19);
+                        WriteOutput("Localized to zone 19");
+                    }
+                }else if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
+                {
+                    // No wall
+                    serialPort.WriteLine(zone12);
+                    WriteOutput("Localized to zone 12.");
+                }else if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic <= thresholdSouth && westUltrasonic > thresholdWest)
+                {
+                    // South Wall
+                    serialPort.WriteLine(zone21);
+                    WriteOutput("Localized to zone 21");
+                }else if (northUltrasonic <= thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic <= thresholdSouth && westUltrasonic > thresholdWest)
+                {
+                    // North and South wall
+                    serialPort.WriteLine(zone22);
+                    WriteOutput("Localized to zone 22.");
+                }
+            } else if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
             {
+
                 // North and East wall
                 serialPort.WriteLine(zone4);
-            }else if (northUltrasonic <= thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic <= thresholdWest)
+                WriteOutput("Localized to zone 4.");
+            }
+            else if (northUltrasonic <= thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic <= thresholdWest)
             {
                 // North and West wall
+                serialPort.WriteLine(zone1);
+                WriteOutput("Localized to zone 1. TA's, are you even trying?");
             }else if (northUltrasonic > thresholdNorth && eastUltrasonic <= thresholdEast && southUltrasonic <= thresholdSouth && westUltrasonic > thresholdWest)
             {
                 // South and East wall
-            }else if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic <= thresholdSouth && westUltrasonic <= thresholdWest)
+                serialPort.WriteLine(zoneHexagon);
+                WriteOutput("Further localization needed. Sending further instructions to robot...");
+                readString = serialPort.ReadLine();
+                CheckAndSetReadLocation(readString);
+                // MORE - 8, 23
+                if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic <= thresholdWest)
+                {
+                    // West wall
+                    serialPort.WriteLine(zone8);
+                    WriteOutput("Localized to zone 8");
+                }else if (northUltrasonic <= thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic <= thresholdSouth && westUltrasonic > thresholdWest)
+                {
+                    // North and South wall
+                    serialPort.WriteLine(zone23);
+                    WriteOutput("Localized to zone 23.");
+                }
+            }
+            else if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic <= thresholdSouth && westUltrasonic <= thresholdWest)
             {
                 // South and West wall
-            }else if (northUltrasonic > thresholdNorth && eastUltrasonic <= thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic <= thresholdWest)
+                serialPort.WriteLine(zoneTriangle);
+                WriteOutput("Further localization needed. Sending further instructions to robot...");
+                readString = serialPort.ReadLine();
+                CheckAndSetReadLocation(readString);
+                // MORE - zone 9, 18
+                if (northUltrasonic <= thresholdNorth && eastUltrasonic <= thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
+                {
+                    // North and East wall
+                    serialPort.WriteLine(zone9);
+                    WriteOutput("Localized to zone 9.");
+                }else if (northUltrasonic > thresholdNorth && eastUltrasonic <= thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic <= thresholdWest)
+                {
+                    // West and East wall
+                    serialPort.WriteLine(zone18);
+                    WriteOutput("Localized to zone 18.");
+                }
+            }
+            else if (northUltrasonic > thresholdNorth && eastUltrasonic <= thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic <= thresholdWest)
             {
                 // East and West wall
-            }else if (northUltrasonic > thresholdNorth && eastUltrasonic <= thresholdEast && southUltrasonic <= thresholdSouth && westUltrasonic <= thresholdWest)
+                serialPort.WriteLine(zonePentagon);
+                WriteOutput("Further localization needed. Sending further instructions to robot...");
+                readString = serialPort.ReadLine();
+                CheckAndSetReadLocation(readString);
+                // MORE - 14, 16, 17
+                if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic <= thresholdWest)
+                {
+                    // West wall
+                    serialPort.WriteLine(zone14);
+                    WriteOutput("Localized to zone 14.");
+                }else if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
+                {
+                    // No wall
+                    serialPort.WriteLine(zone16);
+                    WriteOutput("Localized to zone 16.");
+                }else if (northUltrasonic > thresholdNorth && eastUltrasonic <= thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
+                {
+                    // East wall
+                    serialPort.WriteLine(zone17);
+                    WriteOutput("Localized to zone 17.");
+                }
+            }
+            else if (northUltrasonic > thresholdNorth && eastUltrasonic <= thresholdEast && southUltrasonic <= thresholdSouth && westUltrasonic <= thresholdWest)
             {
                 // East, South and West wall
+                serialPort.WriteLine(zone24);
+                WriteOutput("Localized to zone 24.");
             }else if (northUltrasonic <= thresholdNorth && eastUltrasonic <= thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic <= thresholdWest)
             {
                 // North, East and West wall
+                serialPort.WriteLine(zoneSquare);
+                readString = serialPort.ReadLine();
+                CheckAndSetReadLocation(readString);
+                // MORE - 5, 6, 15
+                WriteOutput("Further localization needed. Sending further instructions to robot...");
+                if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
+                {
+                    // No wall
+                    serialPort.WriteLine(zone5);
+                    WriteOutput("Localized to zone 5.");
+                }else if (northUltrasonic > thresholdNorth && eastUltrasonic <= thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
+                {
+                    // East wall
+                    serialPort.WriteLine(zone6);
+                    WriteOutput("Localized to zone 6");
+                }else if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic <= thresholdSouth && westUltrasonic > thresholdWest)
+                {
+                    // South wall
+                    serialPort.WriteLine(zone15);
+                    WriteOutput("Localized to zone 15.");
+                }
             }
         }
 
