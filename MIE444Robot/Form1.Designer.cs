@@ -46,8 +46,23 @@
             this.comPortsList = new System.Windows.Forms.ComboBox();
             this.connectStatus = new System.Windows.Forms.PictureBox();
             this.mazePic = new System.Windows.Forms.PictureBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.radioD4 = new System.Windows.Forms.RadioButton();
+            this.radioD3 = new System.Windows.Forms.RadioButton();
+            this.radioD2 = new System.Windows.Forms.RadioButton();
+            this.radioD1 = new System.Windows.Forms.RadioButton();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.customCommandButton = new System.Windows.Forms.Button();
+            this.customCommandBox = new System.Windows.Forms.TextBox();
+            this.bearingButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.connectStatus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mazePic)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // connectButton
@@ -185,6 +200,7 @@
             this.comPortsList.Name = "comPortsList";
             this.comPortsList.Size = new System.Drawing.Size(70, 21);
             this.comPortsList.TabIndex = 17;
+            this.comPortsList.SelectedIndexChanged += new System.EventHandler(this.comPortsList_SelectedIndexChanged);
             // 
             // connectStatus
             // 
@@ -206,11 +222,140 @@
             this.mazePic.TabIndex = 0;
             this.mazePic.TabStop = false;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.radioD4);
+            this.panel1.Controls.Add(this.radioD3);
+            this.panel1.Controls.Add(this.radioD2);
+            this.panel1.Controls.Add(this.radioD1);
+            this.panel1.Location = new System.Drawing.Point(6, 28);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(93, 114);
+            this.panel1.TabIndex = 18;
+            // 
+            // radioD4
+            // 
+            this.radioD4.AutoSize = true;
+            this.radioD4.Location = new System.Drawing.Point(0, 72);
+            this.radioD4.Name = "radioD4";
+            this.radioD4.Size = new System.Drawing.Size(39, 17);
+            this.radioD4.TabIndex = 3;
+            this.radioD4.TabStop = true;
+            this.radioD4.Text = "D4";
+            this.radioD4.UseVisualStyleBackColor = true;
+            // 
+            // radioD3
+            // 
+            this.radioD3.AutoSize = true;
+            this.radioD3.Location = new System.Drawing.Point(0, 49);
+            this.radioD3.Name = "radioD3";
+            this.radioD3.Size = new System.Drawing.Size(39, 17);
+            this.radioD3.TabIndex = 2;
+            this.radioD3.TabStop = true;
+            this.radioD3.Text = "D3";
+            this.radioD3.UseVisualStyleBackColor = true;
+            // 
+            // radioD2
+            // 
+            this.radioD2.AutoSize = true;
+            this.radioD2.Location = new System.Drawing.Point(0, 26);
+            this.radioD2.Name = "radioD2";
+            this.radioD2.Size = new System.Drawing.Size(39, 17);
+            this.radioD2.TabIndex = 1;
+            this.radioD2.TabStop = true;
+            this.radioD2.Text = "D2";
+            this.radioD2.UseVisualStyleBackColor = true;
+            // 
+            // radioD1
+            // 
+            this.radioD1.AutoSize = true;
+            this.radioD1.Location = new System.Drawing.Point(0, 3);
+            this.radioD1.Name = "radioD1";
+            this.radioD1.Size = new System.Drawing.Size(39, 17);
+            this.radioD1.TabIndex = 0;
+            this.radioD1.TabStop = true;
+            this.radioD1.Text = "D1";
+            this.radioD1.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.panel1);
+            this.groupBox1.Location = new System.Drawing.Point(1263, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(109, 215);
+            this.groupBox1.TabIndex = 19;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Claw and Gripper Commands";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(6, 177);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 20;
+            this.button2.Text = "Go To Drop";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(6, 148);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 19;
+            this.button1.Text = "Run Gripper";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.customCommandButton);
+            this.groupBox2.Controls.Add(this.customCommandBox);
+            this.groupBox2.Location = new System.Drawing.Point(1263, 247);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(109, 82);
+            this.groupBox2.TabIndex = 20;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Custom Command";
+            // 
+            // customCommandButton
+            // 
+            this.customCommandButton.Location = new System.Drawing.Point(15, 45);
+            this.customCommandButton.Name = "customCommandButton";
+            this.customCommandButton.Size = new System.Drawing.Size(75, 23);
+            this.customCommandButton.TabIndex = 1;
+            this.customCommandButton.Text = "Run";
+            this.customCommandButton.UseVisualStyleBackColor = true;
+            this.customCommandButton.Click += new System.EventHandler(this.customCommandButton_Click);
+            // 
+            // customCommandBox
+            // 
+            this.customCommandBox.Location = new System.Drawing.Point(6, 19);
+            this.customCommandBox.Name = "customCommandBox";
+            this.customCommandBox.Size = new System.Drawing.Size(100, 20);
+            this.customCommandBox.TabIndex = 0;
+            this.customCommandBox.Text = "P";
+            // 
+            // bearingButton
+            // 
+            this.bearingButton.Location = new System.Drawing.Point(1123, 45);
+            this.bearingButton.Name = "bearingButton";
+            this.bearingButton.Size = new System.Drawing.Size(75, 23);
+            this.bearingButton.TabIndex = 21;
+            this.bearingButton.Text = "Check Bearing";
+            this.bearingButton.UseVisualStyleBackColor = true;
+            this.bearingButton.Click += new System.EventHandler(this.bearingButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1269, 462);
+            this.ClientSize = new System.Drawing.Size(1386, 462);
+            this.Controls.Add(this.bearingButton);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.comPortsList);
             this.Controls.Add(this.clearOutputButton);
             this.Controls.Add(this.label6);
@@ -233,6 +378,11 @@
             this.Text = "Robot Interface";
             ((System.ComponentModel.ISupportInitialize)(this.connectStatus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mazePic)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -258,6 +408,18 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button clearOutputButton;
         private System.Windows.Forms.ComboBox comPortsList;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.RadioButton radioD4;
+        private System.Windows.Forms.RadioButton radioD3;
+        private System.Windows.Forms.RadioButton radioD2;
+        private System.Windows.Forms.RadioButton radioD1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button customCommandButton;
+        private System.Windows.Forms.TextBox customCommandBox;
+        private System.Windows.Forms.Button bearingButton;
     }
 }
 

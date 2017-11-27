@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System;
 using System.IO.Ports;
 using System.Threading;
 
@@ -29,13 +28,18 @@ namespace MIE444Robot
         int compass = 0;
 
         // distances to move different amounts of zones
-        const int moveOneZoneNorth = 15 - offsetNorth;
-        const int moveOneZoneSouth = 15 - offsetSouth;
-        const int moveOneZoneWest = 15 - offsetWest;
-        const int moveTwoZonesNorth = 45 - offsetNorth;
-        const int moveTwoZonesWest = 45 - offsetWest;
-        const int moveThreeZonesWest = 75 - offsetWest;
-        const int moveFourZonesWest = 105 - offsetWest; // Check if greater than or less than 100
+        const int moveOneZoneNorth = 30;
+        const int moveOneZoneSouth = 30;
+        const int moveOneZoneWest = 30;
+        const int moveTwoZonesNorth = 60;
+        const int moveTwoZonesEast = 60;
+        const int moveTwoZonesSouth = 60;
+        const int moveTwoZonesWest = 60;
+        const int moveThreeZonesEast = 90;
+        const int moveThreeZonesSouth = 90;
+        const int moveThreeZonesWest = 90;
+        const int moveFourZonesEast = 120;
+        const int moveFourZonesWest = 120; // Check if greater than or less than 100
 
         // thresholds - below this we have a wall
         const int thresholdNorth = 30 - offsetNorth;
@@ -127,7 +131,7 @@ namespace MIE444Robot
             serialPort.BaudRate = 9600;
             serialPort.Parity = Parity.None;
             serialPort.DataBits = 8;
-            serialPort.StopBits = StopBits.None;
+            serialPort.StopBits = StopBits.One;
             serialPort.Handshake = Handshake.None;
             //serialPort.ReadTimeout = 500;
             //serialPort.WriteTimeout = 500;
@@ -137,13 +141,17 @@ namespace MIE444Robot
             if ( serialPort.IsOpen)
             {
                 connectStatus.Image = Properties.Resources.Online;
-                WriteOutput("Connection Successful.");
+                WriteOutput("Connection Successful. Acquiring zeroed bearing (can take up to 28 seconds)...");
+                serialPort.WriteLine("T");
+                //WriteOutput("Send...");
+                string readString = serialPort.ReadLine();
+                WriteOutput(readString);
             }
         }
 
         private void WriteOutput( string output)
         {
-            outputBox.Text += output + "\n";
+            outputBox.Text += output + "\r\n";
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -156,15 +164,81 @@ namespace MIE444Robot
         {
             if (serialPort.IsOpen)
             {
+                string readString;
                 Localize();
                 WriteOutput("Proceeding to loading zone...");
                 // Once we're localized, we just want to visualize what is going on.
                 while (true)
                 {
-                    string readString = serialPort.ReadLine();
+                    readString = serialPort.ReadLine();
                     if(readString[0] == 'D')
                     {
                         WriteOutput("Reached the loading zone.");
+                        break;
+                    }
+                    else
+                    {
+                        CheckAndSetReadLocation(readString);
+                        // Draw()
+                    }
+                }
+                // now tell robot to find the block
+                serialPort.Write("C");
+                WriteOutput("Finding block...");
+                while (true)
+                {
+                    readString = serialPort.ReadLine();
+                    if (readString[0] == 'D')
+                    {
+                        WriteOutput("Found the block");
+                        break;
+                    }
+                    else
+                    {
+                        CheckAndSetReadLocation(readString);
+                        // Draw()
+                    }
+                }
+                // Now tell robot to go to drop-off zone
+                string dropOffMessage = "";
+                if (radioD1.Checked)
+                {
+                    dropOffMessage = "OE" + moveThreeZonesEast.ToString() + "S" + moveOneZoneSouth.ToString() + "E" + moveTwoZonesEast.ToString() + "N" + moveOneZoneNorth.ToString();
+                }else if (radioD2.Checked)
+                {
+                    dropOffMessage = "OE" + moveThreeZonesEast.ToString() + "S" + moveOneZoneSouth.ToString() + "E" + moveFourZonesEast + "N" + moveOneZoneNorth.ToString();
+                }
+                else if (radioD3.Checked)
+                {
+                    dropOffMessage = "OS" + moveThreeZonesSouth.ToString() + "E" + moveTwoZonesEast.ToString() + moveOneZoneNorth.ToString();
+                }else if (radioD4.Checked)
+                {
+                    dropOffMessage = "OE" + moveThreeZonesEast.ToString() + "S" + moveOneZoneSouth.ToString() + "E" + moveFourZonesEast + "S" + moveTwoZonesSouth.ToString();
+                }
+                serialPort.Write(dropOffMessage);
+                WriteOutput("Dropping block off at drop-off zone...");
+                while (true)
+                {
+                    readString = serialPort.ReadLine();
+                    if (readString[0] == 'D')
+                    {
+                        WriteOutput("Reached the drop-off zone.");
+                        break;
+                    }
+                    else
+                    {
+                        CheckAndSetReadLocation(readString);
+                        // Draw()
+                    }
+                }
+                serialPort.Write("B");
+                WriteOutput("Dropping Block...");
+                while (true)
+                {
+                    readString = serialPort.ReadLine();
+                    if (readString[0] == 'D')
+                    {
+                        WriteOutput("Challenge complete!");
                         break;
                     }
                     else
@@ -185,8 +259,15 @@ namespace MIE444Robot
         {
             serialPort.WriteLine("L");
             WriteOutput("Localizing...");
+            serialPort.DiscardInBuffer();
             string readString = serialPort.ReadLine();
-            WriteOutput(readString);
+            //string readString = serialPort.ReadExisting();
+            /*while (readString == "L")
+            {
+                readString = serialPort.ReadLine();
+                WriteOutput("Read: " + readString);
+            }*/
+            WriteOutput("Read: " + readString);
             CheckAndSetReadLocation(readString);
 
             if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
@@ -369,26 +450,212 @@ namespace MIE444Robot
 
         private void CheckAndSetReadLocation(string message)
         {
-            // RN000E000S000W000C000
+            // Format: RN000E000S000W000C000
             // 01234
-            if (message[0] == 'R' && message.Length == 21)
+            try
             {
-                // Parse message
-                northUltrasonic = Int32.Parse(message.Substring(2,3));
-                eastUltrasonic = Int32.Parse(message.Substring(6, 3));
-                southUltrasonic = Int32.Parse(message.Substring(10, 3));
-                westUltrasonic = Int32.Parse(message.Substring(14, 3));
-                compass = Int32.Parse(message.Substring(18, 3));
+                if (message[0] == 'R' && message.Length == 21)
+                {
+                    // Parse message
+                    northUltrasonic = Int32.Parse(message.Substring(2, 3));
+                    eastUltrasonic = Int32.Parse(message.Substring(6, 3));
+                    southUltrasonic = Int32.Parse(message.Substring(10, 3));
+                    westUltrasonic = Int32.Parse(message.Substring(14, 3));
+                    compass = Int32.Parse(message.Substring(18, 3));
 
-                // Set text boxes
-                textBoxNorth.Text = northUltrasonic.ToString();
-                textBoxEast.Text = eastUltrasonic.ToString();
-                textBoxSouth.Text = southUltrasonic.ToString();
-                textBoxWest.Text = westUltrasonic.ToString();
-                textBoxCompass.Text = compass.ToString();
-            }else
+                    // Set text boxes
+                    textBoxNorth.Text = northUltrasonic.ToString();
+                    textBoxEast.Text = eastUltrasonic.ToString();
+                    textBoxSouth.Text = southUltrasonic.ToString();
+                    textBoxWest.Text = westUltrasonic.ToString();
+                    textBoxCompass.Text = compass.ToString();
+                }
+                else
+                {
+                    WriteOutput("Invalid message format");
+                    WriteOutput(message);
+                }
+            }
+            catch
             {
-                WriteOutput("Invalid message format");
+                WriteOutput(message);
+            }
+        }
+
+        private void comPortsList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            // Gripper onwards
+            if (serialPort.IsOpen)
+            {
+                string readString;
+                // now tell robot to find the block
+                serialPort.Write("C");
+                WriteOutput("Finding block...");
+                while (true)
+                {
+                    readString = serialPort.ReadLine();
+                    if (readString[0] == 'D')
+                    {
+                        WriteOutput("Found the block");
+                        break;
+                    }
+                    else
+                    {
+                        CheckAndSetReadLocation(readString);
+                        // Draw()
+                    }
+                }
+
+                // Now tell robot to go to drop-off zone
+                string dropOffMessage = "";
+                if (radioD1.Checked)
+                {
+                    dropOffMessage = "OE" + moveThreeZonesEast.ToString() + "S" + moveOneZoneSouth.ToString() + "E" + moveTwoZonesEast.ToString() + "N" + moveOneZoneNorth.ToString();
+                }
+                else if (radioD2.Checked)
+                {
+                    dropOffMessage = "OE" + moveThreeZonesEast.ToString() + "S" + moveOneZoneSouth.ToString() + "E" + moveFourZonesEast + "N" + moveOneZoneNorth.ToString();
+                }
+                else if (radioD3.Checked)
+                {
+                    dropOffMessage = "OS" + moveThreeZonesSouth.ToString() + "E" + moveTwoZonesEast.ToString() + moveOneZoneNorth.ToString();
+                }
+                else if (radioD4.Checked)
+                {
+                    dropOffMessage = "OE" + moveThreeZonesEast.ToString() + "S" + moveOneZoneSouth.ToString() + "E" + moveFourZonesEast + "S" + moveTwoZonesSouth.ToString();
+                }
+                serialPort.Write(dropOffMessage);
+                WriteOutput("Dropping block off at drop-off zone...");
+                while (true)
+                {
+                    readString = serialPort.ReadLine();
+                    if (readString[0] == 'D')
+                    {
+                        WriteOutput("Reached drop-off zone.");
+                        break;
+                    }
+                    else
+                    {
+                        CheckAndSetReadLocation(readString);
+                        // Draw()
+                    }
+                }
+                serialPort.Write("B");
+                WriteOutput("Dropping Block...");
+                while (true)
+                {
+                    readString = serialPort.ReadLine();
+                    if (readString[0] == 'D')
+                    {
+                        WriteOutput("Challenge Complete!");
+                        break;
+                    }
+                    else
+                    {
+                        CheckAndSetReadLocation(readString);
+                        // Draw()
+                    }
+                }
+            }
+            else
+            {
+                WriteOutput("Connection is not established.");
+                connectStatus.Image = Properties.Resources.Offline;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // Drop off only
+            if (serialPort.IsOpen)
+            {
+                string readString;
+                // Now tell robot to go to drop-off zone
+                string dropOffMessage = "";
+                if (radioD1.Checked)
+                {
+                    dropOffMessage = "OE" + moveThreeZonesEast.ToString() + "S" + moveOneZoneSouth.ToString() + "E" + moveTwoZonesEast.ToString() + "N" + moveOneZoneNorth.ToString();
+                }
+                else if (radioD2.Checked)
+                {
+                    dropOffMessage = "OE" + moveThreeZonesEast.ToString() + "S" + moveOneZoneSouth.ToString() + "E" + moveFourZonesEast + "N" + moveOneZoneNorth.ToString();
+                }
+                else if (radioD3.Checked)
+                {
+                    dropOffMessage = "OS" + moveThreeZonesSouth.ToString() + "E" + moveTwoZonesEast.ToString() + moveOneZoneNorth.ToString();
+                }
+                else if (radioD4.Checked)
+                {
+                    dropOffMessage = "OE" + moveThreeZonesEast.ToString() + "S" + moveOneZoneSouth.ToString() + "E" + moveFourZonesEast + "S" + moveTwoZonesSouth.ToString();
+                }
+                serialPort.Write(dropOffMessage);
+                WriteOutput("Dropping block off at drop-off zone...");
+                while (true)
+                {
+                    readString = serialPort.ReadLine();
+                    if (readString[0] == 'D')
+                    {
+                        WriteOutput("Reached drop-off zone.");
+                        break;
+                    }
+                    else
+                    {
+                        CheckAndSetReadLocation(readString);
+                        // Draw()
+                    }
+                }
+                serialPort.Write("B");
+                WriteOutput("Dropping Block...");
+                while (true)
+                {
+                    readString = serialPort.ReadLine();
+                    if (readString[0] == 'D')
+                    {
+                        WriteOutput("Challenge complete!");
+                        break;
+                    }
+                    else
+                    {
+                        CheckAndSetReadLocation(readString);
+                        // Draw()
+                    }
+                }
+            }
+            else
+            {
+                WriteOutput("Connection is not established.");
+                connectStatus.Image = Properties.Resources.Offline;
+            }
+        }
+
+        private void customCommandButton_Click(object sender, EventArgs e)
+        {
+            WriteOutput("Sending custom command...");
+            try
+            {
+                serialPort.WriteLine(customCommandBox.Text);
+                string readString = serialPort.ReadLine();
+                WriteOutput(readString);
+            }
+            catch
+            {
+                WriteOutput("Failed to send custom command.");
+            }
+        }
+
+        private void bearingButton_Click(object sender, EventArgs e)
+        {
+            if (serialPort.IsOpen)
+            {
+                WriteOutput("Connection Successful. Acquiring zeroed bearing (can take up to 28 seconds)...");
+                serialPort.WriteLine("T");
+                string readString = serialPort.ReadLine();
+                WriteOutput(readString);
             }
         }
     }
