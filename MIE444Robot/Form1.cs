@@ -35,6 +35,7 @@ namespace MIE444Robot
         const int moveTwoZonesEast = 60;
         const int moveTwoZonesSouth = 60;
         const int moveTwoZonesWest = 60;
+        const int moveThreeZonesNorth = 90;
         const int moveThreeZonesEast = 90;
         const int moveThreeZonesSouth = 90;
         const int moveThreeZonesWest = 90;
@@ -53,55 +54,55 @@ namespace MIE444Robot
         // no, I'm not doing that for readability's sake
 
         // LEVEL1
-        string zone1 = "D";
-        string zone2 = "D";
+        string zone1 = "PW000";
+        string zone2 = "PW030";
         string zoneCircle = "PW0" + moveOneZoneWest.ToString() + "L000";
         string zone4 = "PW0" + moveTwoZonesWest.ToString();
         string zoneSquare = "PS0" + moveOneZoneSouth.ToString() + "L000";
         // zone 6 = zoneSquare
-        string zone7 = "D";
+        string zone7 = "PN030";
         string zoneHexagon = "PW0" + moveOneZoneWest.ToString() + "L000";
         string zoneTriangle = "PN0" + moveOneZoneNorth.ToString() + "L000";
         // zone 10 = zoneCircle
-        string zone11 = "PW0" + moveTwoZonesWest.ToString() + "N0" + moveOneZoneNorth.ToString() + "W0" + moveTwoZonesWest.ToString();
+        string zone11 = "PW0" + moveTwoZonesWest.ToString() + "N0" + moveOneZoneNorth.ToString() + "W0" + moveThreeZonesWest.ToString();
         // zone 12 = zoneCircle
-        string zone13 = "PW" + moveFourZonesWest.ToString() + "N0" + moveOneZoneNorth.ToString() + "W0" + moveTwoZonesWest.ToString();
+        string zone13 = "PW" + moveFourZonesWest.ToString() + "N0" + moveOneZoneNorth.ToString() + "W0" + moveThreeZonesWest.ToString();
         string zonePentagon = "PN0" + moveOneZoneNorth.ToString() + "L000";
         // zone 15 = zoneSquare
         // zone 16 = zonePentagon
         // zone 17 = zonePentagon
         // zone 18 = zoneTriangle
         // zone 19 = zoneCircle
-        string zone20 = "PW0" + moveTwoZonesWest.ToString() + "N0" + moveTwoZonesNorth.ToString();
+        string zone20 = "PW0" + moveTwoZonesWest.ToString() + "N0" + moveThreeZonesNorth.ToString();
         // zone21 = zoneCircle
         // zone22 = zoneCircle
         // zone23 = zoneHexagon
-        string zone24 = "PN0" + moveTwoZonesNorth.ToString() + "W" + moveFourZonesWest.ToString() + "N0" + moveOneZoneNorth.ToString() + "W0" + moveTwoZonesWest.ToString();
+        string zone24 = "PN0" + moveTwoZonesNorth.ToString() + "W" + moveFourZonesWest.ToString() + "N0" + moveOneZoneNorth.ToString() + "W0" + moveThreeZonesWest.ToString();
 
         // LEVEL2
         // Everything is unambiguous now
         // Note: when saying "zone5" as an example, we are actually at zone11 now after moving, and the string represents the remaining path
         // Case: zoneSquare
-        string zone5 = "PW0" + moveTwoZonesWest.ToString() + "N0" + moveOneZoneNorth.ToString() + "W0" + moveTwoZonesWest.ToString();
-        string zone6 = "PW" + moveFourZonesWest.ToString() + "N0" + moveOneZoneNorth.ToString() + "W0" + moveTwoZonesWest.ToString();
-        string zone15 = "PW0" + moveTwoZonesWest.ToString() + "N0" + moveTwoZonesNorth.ToString();
+        string zone5 = "PW0" + moveTwoZonesWest.ToString() + "N0" + moveOneZoneNorth.ToString() + "W0" + moveThreeZonesWest.ToString();
+        string zone6 = "PW" + moveFourZonesWest.ToString() + "N0" + moveOneZoneNorth.ToString() + "W0" + moveThreeZonesWest.ToString();
+        string zone15 = "PW0" + moveTwoZonesWest.ToString() + "N0" + moveThreeZonesNorth.ToString();
         // Case: zonePentagon
-        string zone14 = "D";
-        string zone16 = "PW0" + moveTwoZonesWest.ToString() + "N0" + moveOneZoneNorth.ToString() + "W0" + moveTwoZonesWest.ToString();
-        string zone17 = "PW" + moveFourZonesWest.ToString() + "N0" + moveOneZoneNorth.ToString() + "W0" + moveTwoZonesWest.ToString();
+        string zone14 = "PN030";
+        string zone16 = "PW0" + moveTwoZonesWest.ToString() + "N0" + moveOneZoneNorth.ToString() + "W0" + moveThreeZonesWest.ToString();
+        string zone17 = "PW" + moveFourZonesWest.ToString() + "N0" + moveOneZoneNorth.ToString() + "W0" + moveThreeZonesWest.ToString();
         // Case: zoneTriangle
-        string zone9 = "PW0" + moveTwoZonesWest.ToString();
-        string zone18 = "PN0" + moveOneZoneNorth.ToString();
+        string zone9 = "PW0" + moveThreeZonesWest.ToString();
+        string zone18 = "PN0" + moveTwoZonesNorth.ToString();
         // Case: zoneHexagon
-        string zone8 = "D";
-        string zone23 = "PW" + moveFourZonesWest.ToString() + "N0" + moveTwoZonesNorth.ToString();
+        string zone8 = "PN030";
+        string zone23 = "PW" + moveFourZonesWest.ToString() + "N0" + moveThreeZonesNorth.ToString();
         // Case: zoneCircle
-        string zone3 = "D";
-        string zone10 = "PN0" + moveOneZoneNorth.ToString() + "W0" + moveTwoZonesWest.ToString();
-        string zone12 = "PW0" + moveTwoZonesWest.ToString() + "N0" + moveOneZoneNorth.ToString() + "W0" + moveTwoZonesWest.ToString();
-        string zone19 = "PN0" + moveTwoZonesNorth.ToString();
-        string zone21 = "PW0" + moveTwoZonesWest.ToString() + "N0" + moveTwoZonesNorth.ToString();
-        string zone22 = "PW0" + moveThreeZonesWest.ToString() + "N0" + moveTwoZonesNorth.ToString();
+        string zone3 = "PW030";
+        string zone10 = "PN0" + moveOneZoneNorth.ToString() + "W0" + moveThreeZonesWest.ToString();
+        string zone12 = "PW0" + moveTwoZonesWest.ToString() + "N0" + moveOneZoneNorth.ToString() + "W0" + moveThreeZonesWest.ToString();
+        string zone19 = "PN0" + moveThreeZonesNorth.ToString();
+        string zone21 = "PW0" + moveTwoZonesWest.ToString() + "N0" + moveThreeZonesNorth.ToString();
+        string zone22 = "PW0" + moveThreeZonesWest.ToString() + "N0" + moveThreeZonesNorth.ToString();
 
         static SerialPort serialPort;
 
@@ -126,32 +127,56 @@ namespace MIE444Robot
         private void connectButton_Click(object sender, EventArgs e)
         {
             // Set Serial Port Properties - may need to modify later
-            serialPort = new SerialPort();
-            serialPort.PortName = comPortsList.SelectedItem.ToString();
-            serialPort.BaudRate = 9600;
-            serialPort.Parity = Parity.None;
-            serialPort.DataBits = 8;
-            serialPort.StopBits = StopBits.One;
-            serialPort.Handshake = Handshake.None;
-            //serialPort.ReadTimeout = 500;
-            //serialPort.WriteTimeout = 500;
+            try
+            {
+                serialPort = new SerialPort();
+                serialPort.PortName = comPortsList.SelectedItem.ToString();
+                serialPort.BaudRate = 9600;
+                serialPort.Parity = Parity.None;
+                serialPort.DataBits = 8;
+                serialPort.StopBits = StopBits.One;
+                serialPort.Handshake = Handshake.None;
+                //serialPort.ReadTimeout = 500;
+                //serialPort.WriteTimeout = 500;
+            }
+            catch (System.NullReferenceException)
+            {
+                WriteOutput("No COM port is selected. Please select one.");
+            }
 
             // Open Serial Port
-            serialPort.Open();
-            if ( serialPort.IsOpen)
+            try
             {
-                connectStatus.Image = Properties.Resources.Online;
-                WriteOutput("Connection Successful. Acquiring zeroed bearing (can take up to 28 seconds)...");
-                serialPort.WriteLine("T");
-                //WriteOutput("Send...");
-                string readString = serialPort.ReadLine();
-                WriteOutput(readString);
+                serialPort.Open();
+            }
+            catch
+            {
+                WriteOutput("Cannot connect to that COM port. Please try again.");
+            }
+
+            try
+            {
+                if (serialPort.IsOpen)
+                {
+                    connectStatus.Image = Properties.Resources.Online;
+                    WriteOutput("Connection Successful. Acquiring zeroed bearing (can take up to 28 seconds)...");
+                    serialPort.WriteLine("T");
+                    //WriteOutput("Send...");
+                    serialPort.DiscardInBuffer();
+                    string readString = serialPort.ReadLine();
+                    WriteOutput(readString);
+                }
+            }
+            catch
+            {
+                WriteOutput("Serial port is not open.");
             }
         }
 
         private void WriteOutput( string output)
         {
-            outputBox.Text += output + "\r\n";
+            //outputBox.Text += output + "\r\n";
+            outputBox.AppendText(output + "\r\n");
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -170,6 +195,7 @@ namespace MIE444Robot
                 // Once we're localized, we just want to visualize what is going on.
                 while (true)
                 {
+                    serialPort.DiscardInBuffer();
                     readString = serialPort.ReadLine();
                     if(readString[0] == 'D')
                     {
@@ -187,6 +213,7 @@ namespace MIE444Robot
                 WriteOutput("Finding block...");
                 while (true)
                 {
+                    serialPort.DiscardInBuffer();
                     readString = serialPort.ReadLine();
                     if (readString[0] == 'D')
                     {
@@ -203,22 +230,23 @@ namespace MIE444Robot
                 string dropOffMessage = "";
                 if (radioD1.Checked)
                 {
-                    dropOffMessage = "OE" + moveThreeZonesEast.ToString() + "S" + moveOneZoneSouth.ToString() + "E" + moveTwoZonesEast.ToString() + "N" + moveOneZoneNorth.ToString();
+                    dropOffMessage = "OE0" + moveThreeZonesEast.ToString() + "S0" + moveOneZoneSouth.ToString() + "E0" + moveTwoZonesEast.ToString() + "N0" + moveOneZoneNorth.ToString();
                 }else if (radioD2.Checked)
                 {
-                    dropOffMessage = "OE" + moveThreeZonesEast.ToString() + "S" + moveOneZoneSouth.ToString() + "E" + moveFourZonesEast + "N" + moveOneZoneNorth.ToString();
+                    dropOffMessage = "OE0" + moveThreeZonesEast.ToString() + "S0" + moveOneZoneSouth.ToString() + "E" + moveFourZonesEast + "N0" + moveOneZoneNorth.ToString();
                 }
                 else if (radioD3.Checked)
                 {
-                    dropOffMessage = "OS" + moveThreeZonesSouth.ToString() + "E" + moveTwoZonesEast.ToString() + moveOneZoneNorth.ToString();
+                    dropOffMessage = "OS0" + moveThreeZonesSouth.ToString() + "E0" + moveTwoZonesEast.ToString() + "N0" + moveOneZoneNorth.ToString();
                 }else if (radioD4.Checked)
                 {
-                    dropOffMessage = "OE" + moveThreeZonesEast.ToString() + "S" + moveOneZoneSouth.ToString() + "E" + moveFourZonesEast + "S" + moveTwoZonesSouth.ToString();
+                    dropOffMessage = "OE0" + moveThreeZonesEast.ToString() + "S0" + moveOneZoneSouth.ToString() + "E" + moveFourZonesEast + "S0" + moveTwoZonesSouth.ToString();
                 }
-                serialPort.Write(dropOffMessage);
+                serialPort.WriteLine(dropOffMessage);
                 WriteOutput("Dropping block off at drop-off zone...");
                 while (true)
                 {
+                    serialPort.DiscardInBuffer();
                     readString = serialPort.ReadLine();
                     if (readString[0] == 'D')
                     {
@@ -235,6 +263,7 @@ namespace MIE444Robot
                 WriteOutput("Dropping Block...");
                 while (true)
                 {
+                    serialPort.DiscardInBuffer();
                     readString = serialPort.ReadLine();
                     if (readString[0] == 'D')
                     {
@@ -301,7 +330,24 @@ namespace MIE444Robot
                 serialPort.WriteLine(zoneCircle);
                 WriteOutput("Further localization needed. Sending further instructions to robot...");
                 // MORE - 3, 10, 12, 19, 21, 22
+                while (true)
+                {
+                    serialPort.DiscardInBuffer();
+                    readString = serialPort.ReadLine();
+                    if (readString[0] == 'D')
+                    {
+                        WriteOutput("Localizing again...");
+                        break;
+                    }
+                    else
+                    {
+                        CheckAndSetReadLocation(readString);
+                        // Draw()
+                    }
+                }
+                serialPort.DiscardInBuffer();
                 readString = serialPort.ReadLine();
+                WriteOutput("Read: " + readString);
                 CheckAndSetReadLocation(readString);
                 if (northUltrasonic <= thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
                 {
@@ -356,7 +402,24 @@ namespace MIE444Robot
                 // South and East wall
                 serialPort.WriteLine(zoneHexagon);
                 WriteOutput("Further localization needed. Sending further instructions to robot...");
+                while (true)
+                {
+                    serialPort.DiscardInBuffer();
+                    readString = serialPort.ReadLine();
+                    if (readString[0] == 'D')
+                    {
+                        WriteOutput("Localizing again...");
+                        break;
+                    }
+                    else
+                    {
+                        CheckAndSetReadLocation(readString);
+                        // Draw()
+                    }
+                }
+                serialPort.DiscardInBuffer();
                 readString = serialPort.ReadLine();
+                WriteOutput("Read: " + readString);
                 CheckAndSetReadLocation(readString);
                 // MORE - 8, 23
                 if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic <= thresholdWest)
@@ -376,7 +439,24 @@ namespace MIE444Robot
                 // South and West wall
                 serialPort.WriteLine(zoneTriangle);
                 WriteOutput("Further localization needed. Sending further instructions to robot...");
+                while (true)
+                {
+                    serialPort.DiscardInBuffer();
+                    readString = serialPort.ReadLine();
+                    if (readString[0] == 'D')
+                    {
+                        WriteOutput("Localizing again...");
+                        break;
+                    }
+                    else
+                    {
+                        CheckAndSetReadLocation(readString);
+                        // Draw()
+                    }
+                }
+                serialPort.DiscardInBuffer();
                 readString = serialPort.ReadLine();
+                WriteOutput("Read: " + readString);
                 CheckAndSetReadLocation(readString);
                 // MORE - zone 9, 18
                 if (northUltrasonic <= thresholdNorth && eastUltrasonic <= thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
@@ -396,7 +476,24 @@ namespace MIE444Robot
                 // East and West wall
                 serialPort.WriteLine(zonePentagon);
                 WriteOutput("Further localization needed. Sending further instructions to robot...");
+                while (true)
+                {
+                    serialPort.DiscardInBuffer();
+                    readString = serialPort.ReadLine();
+                    if (readString[0] == 'D')
+                    {
+                        WriteOutput("Localizing again...");
+                        break;
+                    }
+                    else
+                    {
+                        CheckAndSetReadLocation(readString);
+                        // Draw()
+                    }
+                }
+                serialPort.DiscardInBuffer();
                 readString = serialPort.ReadLine();
+                WriteOutput("Read: " + readString);
                 CheckAndSetReadLocation(readString);
                 // MORE - 14, 16, 17
                 if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic <= thresholdWest)
@@ -425,10 +522,27 @@ namespace MIE444Robot
             {
                 // North, East and West wall
                 serialPort.WriteLine(zoneSquare);
+                serialPort.DiscardInBuffer();
                 readString = serialPort.ReadLine();
+                WriteOutput("Read: " + readString);
                 CheckAndSetReadLocation(readString);
                 // MORE - 5, 6, 15
                 WriteOutput("Further localization needed. Sending further instructions to robot...");
+                while (true)
+                {
+                    serialPort.DiscardInBuffer();
+                    readString = serialPort.ReadLine();
+                    if (readString[0] == 'D')
+                    {
+                        WriteOutput("Localizing again...");
+                        break;
+                    }
+                    else
+                    {
+                        CheckAndSetReadLocation(readString);
+                        // Draw()
+                    }
+                }
                 if (northUltrasonic > thresholdNorth && eastUltrasonic > thresholdEast && southUltrasonic > thresholdSouth && westUltrasonic > thresholdWest)
                 {
                     // No wall
@@ -454,7 +568,7 @@ namespace MIE444Robot
             // 01234
             try
             {
-                if (message[0] == 'R' && message.Length == 21)
+                if (message[0] == 'R' && message.Length == 21 || message.Length == 22)
                 {
                     // Parse message
                     northUltrasonic = Int32.Parse(message.Substring(2, 3));
@@ -472,8 +586,7 @@ namespace MIE444Robot
                 }
                 else
                 {
-                    WriteOutput("Invalid message format");
-                    WriteOutput(message);
+                    WriteOutput("Invalid message format. String read was " + message);
                 }
             }
             catch
@@ -498,6 +611,7 @@ namespace MIE444Robot
                 WriteOutput("Finding block...");
                 while (true)
                 {
+                    serialPort.DiscardInBuffer();
                     readString = serialPort.ReadLine();
                     if (readString[0] == 'D')
                     {
@@ -533,6 +647,7 @@ namespace MIE444Robot
                 WriteOutput("Dropping block off at drop-off zone...");
                 while (true)
                 {
+                    serialPort.DiscardInBuffer();
                     readString = serialPort.ReadLine();
                     if (readString[0] == 'D')
                     {
@@ -549,6 +664,7 @@ namespace MIE444Robot
                 WriteOutput("Dropping Block...");
                 while (true)
                 {
+                    serialPort.DiscardInBuffer();
                     readString = serialPort.ReadLine();
                     if (readString[0] == 'D')
                     {
@@ -597,6 +713,7 @@ namespace MIE444Robot
                 WriteOutput("Dropping block off at drop-off zone...");
                 while (true)
                 {
+                    serialPort.DiscardInBuffer();
                     readString = serialPort.ReadLine();
                     if (readString[0] == 'D')
                     {
@@ -613,6 +730,7 @@ namespace MIE444Robot
                 WriteOutput("Dropping Block...");
                 while (true)
                 {
+                    serialPort.DiscardInBuffer();
                     readString = serialPort.ReadLine();
                     if (readString[0] == 'D')
                     {
@@ -639,6 +757,7 @@ namespace MIE444Robot
             try
             {
                 serialPort.WriteLine(customCommandBox.Text);
+                serialPort.DiscardInBuffer();
                 string readString = serialPort.ReadLine();
                 WriteOutput(readString);
             }
@@ -646,6 +765,10 @@ namespace MIE444Robot
             {
                 WriteOutput("Failed to send custom command.");
             }
+            /*serialPort.DiscardInBuffer();
+            string readString = serialPort.ReadLine();
+            WriteOutput(readString);
+            WriteOutput(readString.Length.ToString());*/
         }
 
         private void bearingButton_Click(object sender, EventArgs e)
@@ -654,6 +777,7 @@ namespace MIE444Robot
             {
                 WriteOutput("Connection Successful. Acquiring zeroed bearing (can take up to 28 seconds)...");
                 serialPort.WriteLine("T");
+                serialPort.DiscardInBuffer();
                 string readString = serialPort.ReadLine();
                 WriteOutput(readString);
             }

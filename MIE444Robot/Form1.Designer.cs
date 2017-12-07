@@ -375,7 +375,6 @@
             this.Controls.Add(this.connectButton);
             this.Controls.Add(this.mazePic);
             this.Name = "Form1";
-            this.Text = "Robot Interface";
             ((System.ComponentModel.ISupportInitialize)(this.connectStatus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mazePic)).EndInit();
             this.panel1.ResumeLayout(false);
